@@ -1,11 +1,33 @@
 <template>
-  <pre>{{ $data }}</pre>
+  <div>
+    <pre>{{ $store.state }}</pre>
+    <pre class="msg">rootMessage: {{ message }}</pre>
+    <pre class="msg">outerMessage: {{ message1 }}</pre>
+    <pre class="msg">innerModuleState: {{ innerModuleState }}</pre>
+    <button @click="innerAction">trigger innerAction (view logs)</button>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'App',
+
+  computed: {
+    ...mapState({
+      message: (state) => state.rootMessage,
+      message1: (state) => state.outerModule.outerMessage,
+      message2: (state) => state.anotherModule.anotherMessage,
+    }),
+    ...mapState('innerModule', {
+      innerModuleState: (state) => state,
+    }),
+  },
+
+  methods: {
+    ...mapActions('innerModule', ['innerAction']),
+  },
 };
 </script>
 
@@ -32,5 +54,10 @@ pre {
   background: rgba(255, 255, 255, .15);
   padding: 1rem;
   border-radius: 4px;
+  margin: 2rem 0;
+}
+
+.msg {
+  color: cyan;
 }
 </style>
