@@ -1,4 +1,4 @@
-# vuex-nested-modules
+# vuex-nested-modules example (v3)
 
 ## Project setup
 ```
